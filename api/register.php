@@ -6,7 +6,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Authorization, Content-Type');
 
-// Obtener datos del cuerpo de la solicitud
+// Get data from request body
 $data = $_POST ?: json_decode(file_get_contents('php://input'), true);
 $name = htmlspecialchars($data['name'] ?? null, ENT_QUOTES);
 $surname = htmlspecialchars($data['surname'] ?? null, ENT_QUOTES);
@@ -16,17 +16,17 @@ $email = htmlspecialchars($data['email'] ?? null, ENT_QUOTES);
 $password = $data['password'] ?? null;
 $image_file = $_FILES['image'] ?? null;
 
-// Validar campos obligatorios
+// Validate required fields
 if (!$name || !$surname || !$nick || !$birthdate || !$email || !$password) {
-    echo json_encode(['message' => 'Todos los campos son obligatorios']);
+    echo json_encode(['message' => 'All fields are required']);
     http_response_code(400);
     exit;
 }
 
 try {
-    // Registrar al usuario
+    // Register user
     if (register_user($name, $surname, $nick, $birthdate, $email, $password, $image_file)) {
-        // Generar un JWT para el usuario registrado
+        // Generate a JWT for the registered user
         $token = generate_jwt([
             'name' => $name,
             'email' => $email,
@@ -35,7 +35,7 @@ try {
         echo json_encode(['message' => 'Usuario registrado exitosamente', 'token' => $token]);
         http_response_code(201);
     } else {
-        throw new Exception("Error interno al registrar el usuario.");
+        throw new Exception("Internal error while registering user.");
     }
 } catch (Exception $e) {
     echo json_encode(['message' => $e->getMessage()]);
