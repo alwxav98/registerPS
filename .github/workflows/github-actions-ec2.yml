@@ -41,5 +41,5 @@ jobs:
             docker run -d --name registerps --restart always -p 80:80 \
             -e JWT_SECRET_KEY="claveSegura123@" \ 
             alevm98/appregisterps:latest
-            docker image prune -f
+            
             echo "Desplegado en ${{ secrets.HOST_DNS }}"
