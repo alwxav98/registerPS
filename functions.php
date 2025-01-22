@@ -72,7 +72,7 @@ function register_user($name, $surname, $nick, $birthdate, $email, $password, $i
  */
 function generate_jwt($user_data) {
     $payload = [
-        'iss' => "http://localhost", 
+        'iss' => "http://ec2-52-23-49-32.compute-1.amazonaws.com", 
         'aud' => "http://ec2-54-157-221-188.compute-1.amazonaws.com:5000", // Consumer (frontend or microservice)
         'iat' => time(), // Time to issue
         'nbf' => time(), // Not valid before
