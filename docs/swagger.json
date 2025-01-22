@@ -1,0 +1,40 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Microservicio de Registro de Usuarios",
+      "version": "1.0.0",
+      "description": "API para registrar nuevos usuarios en la aplicación."
+    },
+    "paths": {
+      "/api/register": {
+        "post": {
+          "summary": "Registrar Usuario",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string" },
+                    "surname": { "type": "string" },
+                    "nick": { "type": "string" },
+                    "birthdate": { "type": "string", "format": "date" },
+                    "email": { "type": "string", "format": "email" },
+                    "password": { "type": "string", "format": "password" }
+                  },
+                  "required": ["name", "surname", "nick", "birthdate", "email", "password"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": { "description": "Usuario registrado exitosamente." },
+            "400": { "description": "Datos inválidos o incompletos." },
+            "500": { "description": "Error interno del servidor." }
+          }
+        }
+      }
+    }
+  }
+  
