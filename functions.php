@@ -71,6 +71,7 @@ function register_user($name, $surname, $nick, $birthdate, $email, $password, $i
  * Generate a JWT token.
  */
 function generate_jwt($user_data) {
+    $secret_key = getenv('JWT_SECRET_KEY') ?: 'default_secret_key';
     $payload = [
         'iss' => "http://ec2-52-23-49-32.compute-1.amazonaws.com", 
         'aud' => "http://ec2-54-157-221-188.compute-1.amazonaws.com:5000", // Consumer (frontend or microservice)
