@@ -24,21 +24,35 @@ if (!$name || !$surname || !$nick || !$birthdate || !$email || !$password) {
 }
 
 try {
-    // Register user
+    error_log("Iniciando registro del usuario: $email");
+
     if (register_user($name, $surname, $nick, $birthdate, $email, $password, $image_file)) {
-        // Generate a JWT for the registered user
+        error_log("Usuario registrado correctamente: $email");
+
         $token = generate_jwt([
             'name' => $name,
             'email' => $email,
             'nick' => $nick
         ]);
-        echo json_encode(['message' => 'Usuario registrado exitosamente', 'token' => $token]);
+
+        if ($token) {
+            error_log("Token generado correctamente: $token");
+        } else {
+            error_log("Error: No se pudo generar el token.");
+        }
+
+        echo json_encode([
+            'message' => 'Usuario registrado exitosamente',
+            'token' => $token
+        ]);
         http_response_code(201);
     } else {
-        throw new Exception("Internal error while registering user.");
+        throw new Exception("Error interno al registrar usuario.");
     }
 } catch (Exception $e) {
+    error_log("Error en el registro: " . $e->getMessage());
     echo json_encode(['message' => $e->getMessage()]);
     http_response_code(500);
 }
+
 ?>
